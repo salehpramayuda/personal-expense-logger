@@ -1,3 +1,5 @@
+#include "logging.hpp"
+
 #include <iostream>
 #include <vector>
 #include <string>

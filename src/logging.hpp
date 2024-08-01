@@ -48,7 +48,7 @@ class ExpenseLog : public Log {
         void setEmotion(uint);
         void setSubcategory(std::string subcategory) { this->subcategory = subcategory; };
         uint getPrice() { return this->price; };
-        std::string getSubcategory() {return this->subcategory; };
+        std::string getSubcategory() { return this->subcategory; };
         PurchaseCategory getCategory() { return this->category; };
         Satisfaction getEmotion() { return this->emotion; };
         std::string asString();
