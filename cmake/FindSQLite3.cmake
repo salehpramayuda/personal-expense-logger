@@ -29,10 +29,12 @@ This module will set the following variables if found:
   version of the SQLite3 library found
 ``SQLite3_FOUND``
   TRUE if found
-
+>
 #]=======================================================================]
 
-# Look for the necessary header
+
+set(CMAKE_IGNORE_PREFIX_PATH ${CMAKE_IGNORE_PREFIX_PATH} "/home/salehpramayuda/miniconda3/lib")
+# Look for the necessary header>
 find_path(SQLite3_INCLUDE_DIR NAMES sqlite3.h)
 mark_as_advanced(SQLite3_INCLUDE_DIR)
 

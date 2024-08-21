@@ -30,4 +30,10 @@ The task of expense logging can be defined simply as creating a log containing n
 
 2. Logger-Object
     The Logger object will be responsible of accepting user input and constructing a Log object before sending it to the database.
+
+## CLI-Application
+The CLI-Application will entail a few functionalities such as:
+- Adding a log
+- Removing a log with a specific Log-ID
+- Exporting expenses log between a certain time frame into readable format (csv)
     

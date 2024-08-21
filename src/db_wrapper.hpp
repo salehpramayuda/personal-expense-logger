@@ -1,3 +1,4 @@
+#pragma once
 #ifndef DB_WRAPPER_HPP
 #define DB_WRAPPER_HPP
 #endif
@@ -9,16 +10,20 @@
 
 class IDBWrapper{
     public:
-        virtual void open();
-        virtual void createTable();
-        virtual void close();
+        virtual void open() {};
+        virtual void createTable() {};
+        virtual void getByID(int) {};
+        virtual void close() {};
+        virtual ~IDBWrapper() {};
 
 };
 
-class SQLiteWrapper : public IDBWrapper{
+class SQLiteWrapper : public virtual IDBWrapper{
     private:
         std::string db_location;
-        sqlite3* connection;
+        sqlite3 *db;
+        std::string sql_query;
+        sqlite3_stmt *res;
         bool connected;
 
     public:
@@ -28,7 +33,8 @@ class SQLiteWrapper : public IDBWrapper{
         void open();
         void open(std::string);
         void createTable();
+        void getByID(int);
         bool checkConnection();
-        void addObject(ExpenseLog);
+        void addObject(ExpenseLog*);
         void close();
 };
