@@ -33,7 +33,8 @@ int main()
         cout << endl;
 
         auto db_wrapper = new SQLiteWrapper("expenses.db");
-        db_wrapper->addObject(new ExpenseLog(time(nullptr), "RisA chicken", PurchaseCategory::OPTIONAL, 960, Satisfaction::HAPPY, "Food"));
+        //db_wrapper->addObject(new ExpenseLog(time(nullptr), "DM Soja Schnetzel", PurchaseCategory::OPTIONAL, 175, Satisfaction::HAPPY, "Groceries"));
+        db_wrapper->getByID(0);
         
         delete db_wrapper;
 

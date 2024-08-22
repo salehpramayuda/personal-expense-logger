@@ -4,15 +4,25 @@
 #include <stdexcept>
 
 Log::Log(){
+    id = 0;
     this->log_time = time(nullptr);
     this->content = "";
 }
 
 Log::Log(time_t log_time, std::string content): content(content), log_time(log_time){  
+    id = 0;
 }
 
 void Log::setContent(std::string content){
     this->content = content;
+}
+
+void Log::setLogTime(std::time_t log_time){
+    this->log_time = log_time;
+}
+
+void Log::setId(int id){
+    this->id = id;
 }
 
 std::string Log::getContent(){
@@ -23,14 +33,8 @@ std::time_t Log::getLogTime(){
     return log_time;
 } 
 
-std::string Log::asJson(){
-    std::stringstream sstr;
-    sstr << "{ \"log_time\":" << std::ctime(&this->log_time) << ",\"content\":" << this->content << " }";
-    return sstr.str();
-}
-
-std::string Log::asString(){
-    return asJson(); 
+int Log::getId(){
+    return id;
 }
 
 ExpenseLog::ExpenseLog(time_t log_time, std::string content, unsigned int category, unsigned int price, unsigned int emotion, std::string subcategory): 
@@ -47,9 +51,23 @@ ExpenseLog::ExpenseLog(time_t log_time, std::string content, unsigned int catego
 }
 
 ExpenseLog::ExpenseLog(time_t log_time, std::string content, PurchaseCategory category, unsigned int price, Satisfaction emotion, std::string subcategory):
-    Log(log_time, content), category(category), price(price), emotion(emotion), subcategory(subcategory) 
-{
+    Log(log_time, content), category(category), price(price), emotion(emotion), subcategory(subcategory) {
 
+}
+
+ExpenseLog::ExpenseLog(sqlite3_stmt *result) {
+    spdlog::debug("Deserializing SQL query.");
+    setId(sqlite3_column_int(result, 0));
+    struct tm tm;
+    const char* date_str = (char*) sqlite3_column_text(result, 1);
+    strptime(date_str, "%Y-%m-%d %H:%M:%S", &tm);
+    setLogTime(mktime(&tm));
+    setPrice((unsigned int) sqlite3_column_int(result, 2));
+    setCategory((unsigned int) sqlite3_column_int(result, 3));
+    setSubcategory((char*) sqlite3_column_text(result, 4));
+    setEmotion((unsigned int) sqlite3_column_int(result, 5));
+    setContent((char*) sqlite3_column_text(result, 6));
+    spdlog::debug("Finish deserializing query.");
 }
 
 void ExpenseLog::setCategory(unsigned int category){
@@ -64,19 +82,6 @@ void ExpenseLog::setEmotion(unsigned int emotion){
         throw std::invalid_argument("argument emotion must be unsigned integer between 0 and 4");
     }
     this->emotion = (Satisfaction)emotion;
-}
-
-std::string ExpenseLog::asJson(){
-    std::stringstream ss;
-    ss << this->Log::asJson();
-    ss.seekp(-1, ss.cur);
-    ss << ",\"category\":" << getCategory() << ",\"subcategory\":" << getSubcategory() << ",\"price\":" << getPrice()
-        << ",\"emotion\":" << getEmotion() << "}";
-    return ss.str();
-}
-
-std::string ExpenseLog::asString(){
-    return asJson();
 }
 
 std::string ExpenseLog::asSQLQuery(){

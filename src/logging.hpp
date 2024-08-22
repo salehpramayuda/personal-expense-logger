@@ -3,11 +3,13 @@
 #define LOGGING_HPP
 #endif
 
+#include <sqlite3.h>
 #include <ctime>
 #include <string>
 
 class Log {
     private:
+        int id;
         std::time_t log_time;
         std::string content;
 
@@ -15,10 +17,11 @@ class Log {
         Log();
         Log(std::time_t, std::string);
         void setContent(std::string);
+        void setLogTime(std::time_t);
+        void setId(int id);
         std::string getContent();
         std::time_t getLogTime();
-        virtual std::string asString();
-        virtual std::string asJson();
+        int getId();
 };
 
 enum PurchaseCategory { 
@@ -45,6 +48,7 @@ class ExpenseLog : public Log {
     public:
         ExpenseLog(std::time_t, std::string, unsigned int, unsigned int, unsigned int, std::string);
         ExpenseLog(std::time_t, std::string, PurchaseCategory, unsigned int, Satisfaction, std::string);
+        ExpenseLog(sqlite3_stmt*);
         void setCategory(unsigned int);
         void setPrice(unsigned int price) { this->price = price; };
         void setEmotion(unsigned int);
@@ -53,7 +57,5 @@ class ExpenseLog : public Log {
         std::string getSubcategory() { return this->subcategory; };
         PurchaseCategory getCategory() { return this->category; };
         Satisfaction getEmotion() { return this->emotion; };
-        std::string asJson();
-        std::string asString();
         std::string asSQLQuery();
 };

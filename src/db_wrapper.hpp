@@ -4,7 +4,7 @@
 #endif
 
 #include "logging.hpp"
-
+#include <vector>
 #include <sqlite3.h>
 #include <string>
 
@@ -22,9 +22,11 @@ class SQLiteWrapper : public virtual IDBWrapper{
     private:
         std::string db_location;
         sqlite3 *db;
+        int last_primary_key;
         std::string sql_query;
         sqlite3_stmt *res;
         bool connected;
+        std::vector<ExpenseLog*> logs;
 
     public:
         SQLiteWrapper();
