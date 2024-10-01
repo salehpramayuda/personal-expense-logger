@@ -37,7 +37,7 @@ int Log::getId(){
     return id;
 }
 
-ExpenseLog::ExpenseLog(time_t log_time, std::string content, unsigned int category, unsigned int price, unsigned int emotion, std::string subcategory): 
+ExpenseLog::ExpenseLog(time_t log_time, std::string content, unsigned int category, float price, unsigned int emotion, std::string subcategory): 
     Log(log_time, content), price(price), subcategory(subcategory) 
 {
     if(category > 2 && emotion > 4){
@@ -50,7 +50,7 @@ ExpenseLog::ExpenseLog(time_t log_time, std::string content, unsigned int catego
     }
 }
 
-ExpenseLog::ExpenseLog(time_t log_time, std::string content, PurchaseCategory category, unsigned int price, Satisfaction emotion, std::string subcategory):
+ExpenseLog::ExpenseLog(time_t log_time, std::string content, PurchaseCategory category, float price, Satisfaction emotion, std::string subcategory):
     Log(log_time, content), category(category), price(price), emotion(emotion), subcategory(subcategory) {
 
 }
@@ -62,7 +62,7 @@ ExpenseLog::ExpenseLog(sqlite3_stmt *result) {
     const char* date_str = (char*) sqlite3_column_text(result, 1);
     strptime(date_str, "%Y-%m-%d %H:%M:%S", &tm);
     setLogTime(mktime(&tm));
-    setPrice((unsigned int) sqlite3_column_int(result, 2));
+    setPrice((float) sqlite3_column_double(result, 2));
     setCategory((unsigned int) sqlite3_column_int(result, 3));
     setSubcategory((char*) sqlite3_column_text(result, 4));
     setEmotion((unsigned int) sqlite3_column_int(result, 5));

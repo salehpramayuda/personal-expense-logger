@@ -16,7 +16,7 @@ int main()
     try{
         auto logger = spdlog::rotating_logger_mt("app_log", "logs/app.log", 1048576 * 5, 3);
         logger->set_level(spdlog::level::debug);
-        logger->set_pattern("[%H:%M:%S %z] [%^%L%$] [thread %t] %v");
+        logger->set_pattern("[%H:%M:%S %e] [%^%L%$] [thread %t] %v");
         spdlog::set_default_logger(logger);
        
         logger->debug("logger setup finished.");
@@ -33,7 +33,10 @@ int main()
         cout << endl;
 
         auto db_wrapper = new SQLiteWrapper("expenses.db");
-        //db_wrapper->addObject(new ExpenseLog(time(nullptr), "DM Soja Schnetzel", PurchaseCategory::OPTIONAL, 175, Satisfaction::HAPPY, "Groceries"));
+        for (int i = 0; i < 100; i++){
+            db_wrapper->addObject(new ExpenseLog(time(nullptr), "DM Soja Schnetzel", PurchaseCategory::OPTIONAL, 1.75, Satisfaction::HAPPY, "Groceries"));
+        }
+        
         db_wrapper->getByID(0);
         
         delete db_wrapper;

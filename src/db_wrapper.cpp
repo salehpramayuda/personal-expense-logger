@@ -133,6 +133,7 @@ void SQLiteWrapper::addObject(ExpenseLog* log){
         int exit = 0;
         char* errMsg;
         exit = sqlite3_exec(db, sql_query.c_str(), NULL, NULL, &errMsg);
+        /* if a new db file is cewat*/
         if (exit != SQLITE_OK){
             spdlog::error("SQL Query execution resulted in an error.");
             spdlog::error(errMsg);
@@ -162,10 +163,12 @@ bool SQLiteWrapper::checkConnection(){
     }
     else{
         try{
-            sql_query = "SELECT seq FROM sqlite_sequence WHERE name='Expense'";
+            sql_query = "SELECT name FROM sqlite_master";
+            /* if a new db file is created, the sqlite_sequence table also don't exist and will output an error. fix it. */
             char *errMsg;
             int rc = sqlite3_prepare_v2(db, sql_query.c_str(), -1, &res, 0);
             if (rc != SQLITE_OK){
+                spdlog::warn("Response to checking connection is not SQLITE_OK.");
                 spdlog::warn("Failed to prepare sql statement.");
                 throw std::exception();
             }

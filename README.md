@@ -20,7 +20,7 @@ The task of expense logging can be defined simply as creating a log containing n
     - operator overload for accessing all information as string or other format (json)
 
     The ExpenseLog-Class will extend its properties to have:
-    - private ```uint``` variable that specify the price/amount of purchase (in cent)
+    - private ```float``` variable that specify the price/amount of purchase
     - private ```uint``` variable that corresponds to an ```Enum``` for purchase category (Mandatory, Free-Purchase and Future Goal)
     - private ```string``` variable that specify the subcategory of the purchase
     - private ```uint``` variable that corresponds to an ```Enum``` for emotional rating (sad, dissatisfied, neutral, satisfied, happy)
@@ -31,9 +31,20 @@ The task of expense logging can be defined simply as creating a log containing n
 2. Logger-Object
     The Logger object will be responsible of accepting user input and constructing a Log object before sending it to the database.
 
+## SQLite Wrapper
+Main function of the wrapper is to maintain a connection to the database and provide CRUD-functionality. The wrapper will provide a few methods such as:
+- Open connection to *db*-file
+- Check connection with *db*-file
+- Create table if no table exist
+- Create entry in database table
+- Delete entry according to ID
+- Update entry according to ID
+- Get entry as ExpenseLog-object from database
+
 ## CLI-Application
 The CLI-Application will entail a few functionalities such as:
 - Adding a log
 - Removing a log with a specific Log-ID
 - Exporting expenses log between a certain time frame into readable format (csv)
-    
+- Make simple report regarding overall spending, spending per category, budget left remaining
+- 

@@ -40,20 +40,20 @@ enum Satisfaction {
 
 class ExpenseLog : public Log {
     private:
-        unsigned int price;
+        float price;
         PurchaseCategory category;
         Satisfaction emotion;
         std::string subcategory;
 
     public:
-        ExpenseLog(std::time_t, std::string, unsigned int, unsigned int, unsigned int, std::string);
-        ExpenseLog(std::time_t, std::string, PurchaseCategory, unsigned int, Satisfaction, std::string);
+        ExpenseLog(std::time_t, std::string, unsigned int, float, unsigned int, std::string);
+        ExpenseLog(std::time_t, std::string, PurchaseCategory, float, Satisfaction, std::string);
         ExpenseLog(sqlite3_stmt*);
         void setCategory(unsigned int);
-        void setPrice(unsigned int price) { this->price = price; };
+        void setPrice(float price) { this->price = price; };
         void setEmotion(unsigned int);
         void setSubcategory(std::string subcategory) { this->subcategory = subcategory; };
-        unsigned int getPrice() { return this->price; };
+        float getPrice() { return this->price; };
         std::string getSubcategory() { return this->subcategory; };
         PurchaseCategory getCategory() { return this->category; };
         Satisfaction getEmotion() { return this->emotion; };
