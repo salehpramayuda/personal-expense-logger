@@ -47,4 +47,20 @@ The CLI-Application will entail a few functionalities such as:
 - Removing a log with a specific Log-ID
 - Exporting expenses log between a certain time frame into readable format (csv)
 - Make simple report regarding overall spending, spending per category, budget left remaining
-- 
+
+## How to use
+
+### Docker
+
+This method requires [docker](https://docs.docker.com/engine/install/) and is only able to run the CLI version.
+
+```
+docker compose up
+```
+For more information, see [docker compose documentation](https://docs.docker.com/compose/).
+
+or run without compose
+```
+docker build . -t expense-logger
+docker run --rm expense-logger
+```
