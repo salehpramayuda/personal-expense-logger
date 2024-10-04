@@ -1,0 +1,4 @@
+services:
+  expense-logger:
+    build:
+      context: .
